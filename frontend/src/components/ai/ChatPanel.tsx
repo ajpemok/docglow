@@ -4,6 +4,7 @@ import DOMPurify from 'dompurify'
 import { useChatStore } from '../../stores/chatStore'
 import { useProjectStore } from '../../stores/projectStore'
 import type { ChatMessage } from '../../stores/chatStore'
+import { isAiChatEnabled } from '../../utils/aiChat'
 
 const STARTER_QUESTIONS = [
   'What models depend on the orders source?',
@@ -124,9 +125,7 @@ export function ChatPanel() {
     apiKey, requestCount, maxRequests, error,
     sendMessage, clearMessages,
   } = useChatStore()
-  const aiChatEnabled = data?.metadata.ai_enabled === true
-    || data?.metadata.features?.ai_chat === true
-    || data?.ai_context != null
+  const aiChatEnabled = isAiChatEnabled(data)
 
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
