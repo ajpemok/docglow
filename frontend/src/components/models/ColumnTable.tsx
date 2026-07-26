@@ -271,6 +271,9 @@ function LineageBadge({
             <span className="shrink-0" style={{ color: style.color }}>&#x21b3;</span>
             <span>{colLabel}</span>
           </div>
+          <div className="mt-1 opacity-70">
+            Type: {style.label}
+          </div>
         </div>,
         document.body,
       )}
