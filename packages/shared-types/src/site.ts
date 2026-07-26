@@ -65,9 +65,12 @@ export interface ContentLayoutConfig {
 
 export interface UiConfig {
   readonly lineage_badge: LineageBadgeConfig;
-  readonly sidebar: SidebarConfig;
-  readonly table_layout: TableLayoutConfig;
-  readonly content_layout: ContentLayoutConfig;
+  /** Optional: absent in docglow-data.json produced by older generator versions that predate this field. */
+  readonly sidebar?: SidebarConfig;
+  /** Optional: absent in docglow-data.json produced by older generator versions that predate this field. */
+  readonly table_layout?: TableLayoutConfig;
+  /** Optional: absent in docglow-data.json produced by older generator versions that predate this field. */
+  readonly content_layout?: ContentLayoutConfig;
 }
 
 export interface DocglowData {
