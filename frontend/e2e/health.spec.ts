@@ -1,10 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
-import { readFileSync } from 'node:fs'
+import { routeFixtureData, type FixtureData } from './helpers/fixtures'
 
-const fixturePath = new URL('./fixtures/docglow-data.json', import.meta.url)
-
-async function routeHealthLayoutStressData(page: Page) {
-  const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8'))
+function mutateHealthLayoutStressData(fixture: FixtureData) {
   fixture.health.coverage.models_tested = { covered: 566, total: 694, rate: 566 / 694 }
   fixture.health.coverage.columns_tested = { covered: 3540, total: 10714, rate: 3540 / 10714 }
   fixture.health.coverage.by_folder = {
@@ -26,16 +23,15 @@ async function routeHealthLayoutStressData(page: Page) {
       downstream_count: 117,
     },
   ]
+}
 
-  await page.route('**/docglow-data.json', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify(fixture),
-  }))
+async function routeHealthLayoutStressData(page: Page) {
+  await routeFixtureData(page, mutateHealthLayoutStressData)
 }
 
 test.describe('Health Page', () => {
   test.beforeEach(async ({ page }) => {
+    await routeFixtureData(page)
     await page.goto('/#/health')
   })
 
