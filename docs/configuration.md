@@ -92,6 +92,8 @@ ui:
       - type
       - tests
     content_sized_max_width: 360  # Maximum width for content-sized columns
+  content_layout:
+    max_width: null                # Optional max width (px) for page content
 ```
 
 ## Theme
@@ -170,4 +172,12 @@ ui:
     min_width: 1120
     content_sized_columns: [column, type, tests]
     content_sized_max_width: 360
+```
+
+The `ui.content_layout` section controls how wide the main content area (everything to the right of the sidebar) can grow. Set `max_width` to keep prose and tables from stretching edge-to-edge on very wide monitors; leave it `null` (the default) to use the full available width.
+
+```yaml
+ui:
+  content_layout:
+    max_width: 1400
 ```

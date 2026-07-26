@@ -1,27 +1,5 @@
-import { test, expect, type Page } from '@playwright/test'
-import { readFileSync } from 'node:fs'
-
-const fixturePath = new URL('./fixtures/docglow-data.json', import.meta.url)
-
-function existingUi(fixture: Record<string, unknown>): Record<string, unknown> {
-  const ui = fixture.ui
-  return ui && typeof ui === 'object' && !Array.isArray(ui)
-    ? ui as Record<string, unknown>
-    : {}
-}
-
-async function routeFixture(
-  page: Page,
-  mutate?: (fixture: Record<string, unknown>) => void,
-) {
-  const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8')) as Record<string, unknown>
-  mutate?.(fixture)
-  await page.route('**/docglow-data.json', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify(fixture),
-  }))
-}
+import { test, expect } from '@playwright/test'
+import { routeFixtureData as routeFixture, existingUi } from './helpers/fixtures'
 
 test.describe('Responsive Layout', () => {
   test('desktop layout shows sidebar', async ({ page }) => {

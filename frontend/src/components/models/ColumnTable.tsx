@@ -188,6 +188,7 @@ function LineageBadge({
     return (
       <button
         {...commonButtonProps}
+        title={`${direction === 'upstream' ? 'From' : 'To'}: ${modelId}\nColumns: ${columns.join(', ')}\nType: ${transformation}`}
         className="box-border max-w-[min(260px,100%)] min-w-0 inline-flex flex-row flex-nowrap items-center gap-1
                    rounded border px-1.5 py-0.5 text-[11px] overflow-hidden cursor-pointer text-left
                    transition-all hover:brightness-95"
@@ -270,6 +271,9 @@ function LineageBadge({
           <div className="mt-1 flex gap-1 [overflow-wrap:anywhere]">
             <span className="shrink-0" style={{ color: style.color }}>&#x21b3;</span>
             <span>{colLabel}</span>
+          </div>
+          <div className="mt-1 opacity-70">
+            Type: {transformation}
           </div>
         </div>,
         document.body,

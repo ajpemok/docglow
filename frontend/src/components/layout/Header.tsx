@@ -1,15 +1,14 @@
 import { useProjectStore } from '../../stores/projectStore'
 import { useSearchStore } from '../../stores/searchStore'
 import { useChatStore } from '../../stores/chatStore'
+import { isAiChatEnabled } from '../../utils/aiChat'
 
 export function Header() {
   const { data, theme, toggleTheme } = useProjectStore()
   const { setOpen } = useSearchStore()
   const projectName = data?.metadata.project_name ?? 'docglow'
   const homeHref = import.meta.env.BASE_URL
-  const aiChatEnabled = data?.metadata.ai_enabled === true
-    || data?.metadata.features?.ai_chat === true
-    || data?.ai_context != null
+  const aiChatEnabled = isAiChatEnabled(data)
 
   return (
     <header className="h-14 border-b border-[var(--border)] bg-[var(--bg)] flex items-center px-4 gap-4 shrink-0">

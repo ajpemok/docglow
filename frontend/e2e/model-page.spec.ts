@@ -1,19 +1,17 @@
 import { test, expect, type Page } from '@playwright/test'
-import { readFileSync } from 'node:fs'
+import { routeFixtureData, type FixtureData } from './helpers/fixtures'
 
-const fixturePath = new URL('./fixtures/docglow-data.json', import.meta.url)
 const stressModelId = 'model.jaffle_shop.orders'
 
 async function routeDefaultData(page: Page) {
-  await page.route('**/docglow-data.json', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: readFileSync(fixturePath, 'utf-8'),
-  }))
+  await routeFixtureData(page)
 }
 
 async function routeColumnLayoutStressData(page: Page) {
-  const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8'))
+  await routeFixtureData(page, fixture => mutateColumnLayoutStressData(fixture))
+}
+
+function mutateColumnLayoutStressData(fixture: FixtureData) {
   const model = fixture.models[stressModelId]
   model.columns = [
     {
@@ -115,12 +113,6 @@ async function routeColumnLayoutStressData(page: Page) {
       ],
     },
   }
-
-  await page.route('**/docglow-data.json', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify(fixture),
-  }))
 }
 
 test.describe('Model Detail Page', () => {
